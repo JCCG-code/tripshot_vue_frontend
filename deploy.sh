@@ -13,6 +13,6 @@ git init
 git add -A
 git commit -m 'dev deploy'
 
-git push -f git@github.com:JCCG-code/tripshot_vue_frontend.git develop:gh-pages
+git push -f https://github.com/JCCG-code/tripshot_vue_frontend.git master:gh-pages
 
 cd -
