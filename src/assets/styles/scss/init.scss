@@ -2,5 +2,14 @@
 
 // Utils
 body {
+  min-height: 100vh;
+  color: $color-text;
+  background: $color-background;
+  transition: 0.5s;
   font-family: $font;
+}
+// Styles for all icons
+.icon {
+  width: 30px;
+  height: 30px;
 }
