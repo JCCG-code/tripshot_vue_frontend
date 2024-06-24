@@ -1,39 +1,59 @@
 <template>
   <header>
     <!-- Header navigation -->
-    <nav class="main-nav-responsive">
-      <ul>
+    <main class="main-nav-responsive">
+      <nav>
         <!-- Header main application title -->
-        <li class="main-title">
+        <RouterLink to="/" class="main-title">
           <h1>TripShot</h1>
-        </li>
+        </RouterLink>
         <!-- Go to home -->
-        <li>
+        <RouterLink to="/">
           <img alt="Home icon" class="icon" src="@/assets/svg/homeIcon.svg" />
           <span>Home</span>
-        </li>
+        </RouterLink>
 
         <!-- Go to new post -->
-        <li>
+        <RouterLink to="/newPost">
           <img
             alt="New post icon"
             class="icon"
             src="@/assets/svg/newPostIcon.svg"
           />
           <span>Create</span>
-        </li>
+        </RouterLink>
 
         <!-- Go to profile -->
-        <li>
+        <RouterLink to="/juankycg">
           <img
             alt="Profile icon"
             class="icon"
             src="@/assets/svg/profileIcon.svg"
           />
-          <span> Profile </span>
-        </li>
-      </ul>
-    </nav>
+          <span>Profile</span>
+        </RouterLink>
+
+        <!-- Go to about us -->
+        <RouterLink to="/settings">
+          <img
+            alt="Settings icon"
+            class="icon"
+            src="@/assets/svg/settingsIcon.svg"
+          />
+          <span>Settings</span>
+        </RouterLink>
+
+        <!-- Go to about us -->
+        <RouterLink to="/about" class="about">
+          <img
+            alt="About us icon"
+            class="icon"
+            src="@/assets/svg/aboutIcon.svg"
+          />
+          <span>About</span>
+        </RouterLink>
+      </nav>
+    </main>
   </header>
 </template>
 
@@ -41,7 +61,7 @@
 import { onMounted } from 'vue'
 
 onMounted(() => {
-  console.log(`Header mounted.`)
+  // console.log(`Header mounted.`)
 })
 </script>
 
@@ -54,6 +74,9 @@ onMounted(() => {
   font-size: 25px;
   font-weight: bold;
 }
+.router-link-active {
+  font-weight: bold;
+}
 
 /** ------------------------ */
 /** Mobile and tablet design */
@@ -61,6 +84,7 @@ onMounted(() => {
 
 /** Not displayed */
 .main-title,
+.about,
 span {
   display: none;
 }
@@ -74,7 +98,7 @@ span {
   /** Sizes */
   min-width: 100vw;
 
-  ul {
+  nav {
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -106,7 +130,7 @@ span {
     min-width: 200px;
     min-height: 100vh;
 
-    ul {
+    nav {
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
@@ -116,7 +140,7 @@ span {
         padding: 20px;
         margin-bottom: 30px;
       }
-      li {
+      a {
         display: flex;
         flex-direction: row;
         justify-content: flex-start;

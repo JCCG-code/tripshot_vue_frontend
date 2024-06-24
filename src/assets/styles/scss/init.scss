@@ -7,8 +7,12 @@ body {
   background: $color-background;
   transition: 0.5s;
   font-family: $font;
+  font-weight: 300;
+  font-size: 14px;
 }
-// Styles for all icons
+button {
+  cursor: pointer;
+}
 .icon {
   width: 30px;
   height: 30px;

@@ -1,10 +1,13 @@
 <template>
   <div class="home">
-    <h1 class="main-title">TripShot</h1>
-    <h1>This is the home page</h1>
+    <div>This is the home view</div>
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { onMounted } from 'vue'
 
-<style></style>
+onMounted(() => {
+  // console.log(`Home mounted.`)
+})
+</script>

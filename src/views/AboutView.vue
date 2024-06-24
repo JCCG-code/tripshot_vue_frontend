@@ -8,7 +8,7 @@
 import { onMounted } from 'vue'
 
 onMounted(() => {
-  console.log(`About mounted.`)
+  // console.log(`About mounted.`)
 })
 </script>
 

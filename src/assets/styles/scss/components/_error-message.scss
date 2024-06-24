@@ -1,0 +1,21 @@
+.error-message {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #f8d7da;
+  color: #e74c3c;
+  padding: 1rem;
+  border-radius: 5px;
+  font-size: 1rem;
+  z-index: 1000;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-top: 1rem;
+  text-align: center;
+  width: calc(100% - 2rem);
+  max-width: 600px;
+  transition: top 0.5s ease-in-out;
+}
+.error-message.show {
+  top: 1rem;
+}
