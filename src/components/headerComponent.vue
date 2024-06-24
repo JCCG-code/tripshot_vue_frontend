@@ -42,27 +42,20 @@
           />
           <span>Settings</span>
         </RouterLink>
-
-        <!-- Go to about us -->
-        <RouterLink to="/about" class="about">
-          <img
-            alt="About us icon"
-            class="icon"
-            src="@/assets/svg/aboutIcon.svg"
-          />
-          <span>About</span>
-        </RouterLink>
       </nav>
     </main>
   </header>
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
+// import { useUserStore } from '@/stores/userStore'
+// import { computed } from 'vue'
 
-onMounted(() => {
-  // console.log(`Header mounted.`)
-})
+// const userStore = useUserStore()
+
+// const user = computed(() => {
+//   return userStore.user
+// })
 </script>
 
 <style lang="scss" scoped>

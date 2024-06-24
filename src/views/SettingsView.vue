@@ -111,24 +111,9 @@ function logout() {
   .settings {
     margin-left: 198px;
   }
-  hr {
+  hr,
+  img {
     display: none;
-  }
-  .title-view {
-    // display: flex;
-    // align-items: center;
-
-    /** Sizes */
-    // padding: 20px;
-
-    img {
-      display: none;
-    }
-
-    h1 {
-      // font-size: 25px;
-      // font-weight: 600;
-    }
   }
 }
 </style>
