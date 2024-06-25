@@ -30,8 +30,8 @@ const axios = inject('axios')
 
 // Reactive page data
 const data = reactive({
-  email: 'juanky.141998@gmail.com',
-  password: '1234',
+  email: '',
+  password: '',
   errorMessage: ''
 })
 
