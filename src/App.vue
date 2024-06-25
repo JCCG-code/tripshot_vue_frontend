@@ -1,15 +1,28 @@
 <template>
-  <div class="app-main-wrap">
+  <!-- User on store exists -->
+  <div class="app-main-wrap" v-if="user">
     <Header />
+    <RouterView />
+  </div>
+  <!-- Non exists user on store -->
+  <div v-else>
     <RouterView />
   </div>
 </template>
 
 <script setup>
 import { RouterView } from 'vue-router'
-
-// Components and views
+import { useUserStore } from '@/stores/userStore'
+import { computed } from 'vue'
 import Header from '@/components/headerComponent.vue'
+
+// User store initialization
+const userStore = useUserStore()
+
+// User computed instance
+const user = computed(() => {
+  return userStore.user
+})
 </script>
 
 <style lang="scss">

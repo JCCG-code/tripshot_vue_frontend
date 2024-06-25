@@ -5,7 +5,7 @@
         alt="Go back icon"
         class="icon"
         src="@/assets/svg/goBackIcon.svg"
-        @click="$router.push({ path: '/' })"
+        @click="$router.back()"
       />
       <h1>Settings</h1>
     </div>
@@ -27,6 +27,11 @@
       <div class="section-title">
         <hr />
         <p>Manage your account</p>
+      </div>
+      <div class="row-section">
+        <p @click="$router.push({ path: '/settings/editProfile' })">
+          Edit profile
+        </p>
       </div>
       <div class="row-section">
         <p @click="logout" style="color: red">Log out</p>

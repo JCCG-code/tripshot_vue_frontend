@@ -17,4 +17,8 @@ button {
 .icon {
   width: 30px;
   height: 30px;
+}
+
+.profile-picture {
+  border-radius: 50%;
 }/*# sourceMappingURL=init.css.map */

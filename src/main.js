@@ -12,10 +12,8 @@ import router from './router'
 const app = createApp(App)
 const pinia = createPinia()
 
-// Axios default base url on dev
-// axios.defaults.baseURL = 'http://localhost:5001/api'
-// Axios default base url on prod
-axios.defaults.baseURL = 'https://tripshot-backend.onrender.com/api'
+// Axios default base url of API
+axios.defaults.baseURL = import.meta.env.VITE_API_URI
 
 // Middlewares
 app.use(pinia)

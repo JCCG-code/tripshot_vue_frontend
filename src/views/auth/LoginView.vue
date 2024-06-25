@@ -22,17 +22,15 @@
 
 <script setup>
 import router from '@/router'
-import { useUserStore } from '@/stores/userStore'
 import { inject, reactive } from 'vue'
 import { RouterLink } from 'vue-router'
 
 // Initializations
-const userStore = useUserStore()
 const axios = inject('axios')
 
 // Reactive page data
 const data = reactive({
-  email: 'prueba@gmail.com',
+  email: 'juanky.141998@gmail.com',
   password: '1234',
   errorMessage: ''
 })

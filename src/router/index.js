@@ -5,6 +5,7 @@ import HomeView from '../views/HomeView.vue'
 import ProfileView from '../views/ProfileView.vue'
 import AboutView from '../views/AboutView.vue'
 import SettingsView from '../views/SettingsView.vue'
+import EditProfileView from '../views/settings/EditProfileView.vue'
 import LoginView from '../views/auth/LoginView.vue'
 import RegisterView from '../views/auth/RegisterView.vue'
 
@@ -42,6 +43,14 @@ const router = createRouter({
       path: '/settings',
       name: 'settings',
       component: SettingsView,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/settings/editProfile',
+      name: 'EditProfile',
+      component: EditProfileView,
       meta: {
         requiresAuth: true
       }

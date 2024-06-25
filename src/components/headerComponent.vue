@@ -26,6 +26,13 @@
         <!-- Go to profile -->
         <RouterLink to="/juankycg">
           <img
+            v-if="data.profilePicture"
+            alt="Profile icon"
+            class="icon profile-picture"
+            :src="data.profilePicture"
+          />
+          <img
+            v-else
             alt="Profile icon"
             class="icon"
             src="@/assets/svg/profileIcon.svg"
@@ -48,14 +55,29 @@
 </template>
 
 <script setup>
-// import { useUserStore } from '@/stores/userStore'
-// import { computed } from 'vue'
+import { useUserStore } from '@/stores/userStore'
+import { computed, onMounted, reactive } from 'vue'
 
-// const userStore = useUserStore()
+const userStore = useUserStore()
 
-// const user = computed(() => {
-//   return userStore.user
-// })
+// Computed page data
+const userStored = computed(() => {
+  return userStore.user
+})
+
+// Reactive page data
+const data = reactive({
+  profilePicture: ''
+})
+
+onMounted(() => {
+  if (userStored.value) {
+    data.profilePicture =
+      import.meta.env.VITE_API_URI +
+      '/uploads/' +
+      userStored.value.profilePicture
+  }
+})
 </script>
 
 <style lang="scss" scoped>
