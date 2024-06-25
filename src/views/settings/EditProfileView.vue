@@ -93,10 +93,10 @@ onMounted(() => {
     // Update bio
     data.bio = userStored.value.bio
     // Update profile picture
-    data.profilePicturePath =
-      import.meta.env.VITE_API_URI +
-      '/uploads/' +
-      userStored.value.profilePicture
+    if (userStored.value.profilePicture) {
+      data.profilePicturePath =
+        axios.defaults.baseURL + '/uploads/' + userStored.value.profilePicture
+    }
   }
 })
 

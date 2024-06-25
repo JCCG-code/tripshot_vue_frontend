@@ -26,7 +26,7 @@
         <!-- Go to profile -->
         <RouterLink to="/juankycg">
           <img
-            v-if="data.profilePicture"
+            v-if="data.profilePicture != ''"
             alt="Profile icon"
             class="icon profile-picture"
             :src="data.profilePicture"
@@ -56,7 +56,10 @@
 
 <script setup>
 import { useUserStore } from '@/stores/userStore'
-import { computed, onMounted, reactive } from 'vue'
+import { computed, inject, onMounted, reactive } from 'vue'
+
+// Initializations
+const axios = inject('axios')
 
 const userStore = useUserStore()
 
@@ -71,11 +74,9 @@ const data = reactive({
 })
 
 onMounted(() => {
-  if (userStored.value) {
+  if (userStored.value.profilePicture) {
     data.profilePicture =
-      import.meta.env.VITE_API_URI +
-      '/uploads/' +
-      userStored.value.profilePicture
+      axios.defaults.baseURL + '/uploads/' + userStored.value.profilePicture
   }
 })
 </script>

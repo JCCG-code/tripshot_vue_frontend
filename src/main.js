@@ -13,7 +13,9 @@ const app = createApp(App)
 const pinia = createPinia()
 
 // Axios default base url of API
-axios.defaults.baseURL = import.meta.env.VITE_API_URI
+axios.defaults.baseURL = import.meta.env.PROD
+  ? import.meta.env.VITE_API_URI_PROD
+  : import.meta.env.VITE_API_URI
 
 // Middlewares
 app.use(pinia)
