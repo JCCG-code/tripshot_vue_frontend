@@ -80,7 +80,6 @@ const data = reactive({
   followers: 0,
   following: 0,
   postNumber: 0,
-  loading: false,
   isConnected: false
 })
 
@@ -92,9 +91,7 @@ const route = useRoute()
 
 onMounted(async () => {
   if (route.params.userProfile) {
-    data.loading = true
     await getUserProfile(route.params.userProfile)
-    data.loading = false
     // Check if requested user is connected
     if (route.params.userProfile === userStore.user.username) {
       data.isConnected = true
@@ -105,9 +102,7 @@ onMounted(async () => {
 watch(
   () => route.params.userProfile,
   async () => {
-    data.loading = true
     await getUserProfile(route.params.userProfile)
-    data.loading = false
     // Check if requested user is connected
     data.isConnected = !!(route.params.userProfile === userStore.user.username)
   }
@@ -242,6 +237,7 @@ async function followProfile(userIdToFollow) {
     display: flex;
     flex-direction: column;
     align-items: center;
+    cursor: pointer;
 
     .number {
       font-weight: bold;

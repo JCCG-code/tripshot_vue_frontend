@@ -39,8 +39,7 @@ const props = defineProps({
 })
 
 const data = reactive({
-  imagesData: [],
-  currentPos: 0
+  imagesData: []
 })
 
 onMounted(() => {

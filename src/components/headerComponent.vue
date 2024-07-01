@@ -129,6 +129,7 @@ span {
   border-top: solid 2px $color-background-shadow;
 
   background-color: $color-background;
+  z-index: 100;
 
   /** Sizes */
   min-width: 100vw;

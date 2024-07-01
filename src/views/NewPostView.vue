@@ -81,6 +81,7 @@ async function newPost() {
   // Form-data form filled
   const formData = new FormData()
   formData.append('userId', userStore.user.id)
+  formData.append('username', userStore.user.username)
   formData.append('description', data.post.description)
   formData.append('place', data.post.place)
   formData.append('country', data.post.country)
@@ -106,7 +107,6 @@ async function newPost() {
         })
         router.push({ path: '/' })
       }
-      console.log(response.data)
     })
     .catch((error) => {
       // Reactive data

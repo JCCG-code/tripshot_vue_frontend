@@ -54,6 +54,8 @@ hr {
   margin-left: 30px;
   max-width: 350px;
 
+  cursor: pointer;
+
   .profilePicture-wrap {
     width: 60px;
     height: 60px;
