@@ -28,12 +28,12 @@
 
 <script setup>
 import router from '@/router'
-import { useUserStore } from '@/stores/userStore'
+import { useAppStore } from '@/stores/appStore'
 import { inject, reactive } from 'vue'
 import { RouterLink } from 'vue-router'
 
 // Initializations
-const userStore = useUserStore()
+const appStore = useAppStore()
 const axios = inject('axios')
 
 // Reactive page data
@@ -49,6 +49,7 @@ const data = reactive({
  * Asynchronously send register data to the backend side
  */
 async function handleSubmit() {
+  appStore.setIsLoading(true)
   await axios
     .post('/auth/register', {
       username: data.username,
@@ -68,6 +69,7 @@ async function handleSubmit() {
       data.errorMessage = error.response.data.data.error
       console.error('Error: ', error.response.data.data.error)
     })
+  appStore.setIsLoading(false)
 }
 </script>
 

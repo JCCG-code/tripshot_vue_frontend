@@ -1,13 +1,15 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 // Local pages
-import HomeView from '../views/HomeView.vue'
-import ProfileView from '../views/ProfileView.vue'
-import AboutView from '../views/AboutView.vue'
-import SettingsView from '../views/SettingsView.vue'
-import EditProfileView from '../views/settings/EditProfileView.vue'
-import LoginView from '../views/auth/LoginView.vue'
-import RegisterView from '../views/auth/RegisterView.vue'
+import HomeView from '@/views/HomeView.vue'
+import NewPost from '@/views/NewPostView.vue'
+import UserProfileView from '@/views/profile/UserProfileView.vue'
+import FollowListView from '@/views/profile/FollowListView.vue'
+import AboutView from '@/views/AboutView.vue'
+import SettingsView from '@/views/SettingsView.vue'
+import EditProfileView from '@/views/settings/EditProfileView.vue'
+import LoginView from '@/views/auth/LoginView.vue'
+import RegisterView from '@/views/auth/RegisterView.vue'
 
 // Local stores
 import { useUserStore } from '@/stores/userStore'
@@ -24,9 +26,25 @@ const router = createRouter({
       }
     },
     {
+      path: '/newPost',
+      name: 'NewPost',
+      component: NewPost,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
       path: '/:userProfile',
-      name: 'Profile',
-      component: ProfileView,
+      name: 'UserProfile',
+      component: UserProfileView,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/:userProfile/:followList',
+      name: 'FollowList',
+      component: FollowListView,
       meta: {
         requiresAuth: true
       }
@@ -82,6 +100,11 @@ router.beforeEach(async (to, from, next) => {
       const userStore = useUserStore()
       // Load user into store
       await userStore.getUser(localStorage.getItem('token'))
+      // Check user
+      if (!userStore.$state.user) {
+        next('/login')
+        return
+      }
       next()
       return
     }

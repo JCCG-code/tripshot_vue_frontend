@@ -22,16 +22,18 @@
 
 <script setup>
 import router from '@/router'
+import { useAppStore } from '@/stores/appStore'
 import { inject, reactive } from 'vue'
 import { RouterLink } from 'vue-router'
 
 // Initializations
 const axios = inject('axios')
+const appStore = useAppStore()
 
 // Reactive page data
 const data = reactive({
-  email: '',
-  password: '',
+  email: import.meta.env.PROD ? '' : 'test@test.com',
+  password: import.meta.env.PROD ? '' : '1234',
   errorMessage: ''
 })
 
@@ -39,6 +41,7 @@ const data = reactive({
  * Asynchronously send login data to the backend side
  */
 async function handleSubmit() {
+  appStore.setIsLoading(true)
   await axios
     .post('/auth/login', { email: data.email, password: data.password })
     .then((response) => {
@@ -53,6 +56,7 @@ async function handleSubmit() {
       data.errorMessage = error.response.data.data.error
       console.error('Error: ', error.response.data.data.error)
     })
+  appStore.setIsLoading(false)
 }
 </script>
 

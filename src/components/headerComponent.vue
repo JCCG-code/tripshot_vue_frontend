@@ -24,12 +24,12 @@
         </RouterLink>
 
         <!-- Go to profile -->
-        <RouterLink to="/juankycg">
+        <RouterLink :to="'/' + data.user.username">
           <img
-            v-if="data.profilePicture != ''"
+            v-if="data.user.profilePicture"
             alt="Profile icon"
             class="icon profile-picture"
-            :src="data.profilePicture"
+            :src="data.user.profilePicture"
           />
           <img
             v-else
@@ -55,30 +55,47 @@
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/userStore'
-import { computed, inject, onMounted, reactive } from 'vue'
+import { inject, onMounted, reactive, watch } from 'vue'
+import router from '@/router'
 
 // Initializations
 const axios = inject('axios')
-
 const userStore = useUserStore()
+const route = useRouter()
 
-// Computed page data
-const userStored = computed(() => {
-  return userStore.user
-})
-
-// Reactive page data
 const data = reactive({
-  profilePicture: ''
-})
-
-onMounted(() => {
-  if (userStored.value.profilePicture) {
-    data.profilePicture =
-      axios.defaults.baseURL + '/uploads/' + userStored.value.profilePicture
+  user: {
+    username: '',
+    profilePicture: ''
   }
 })
+
+// First time header is mounted
+onMounted(() => {
+  if (userStore.user) {
+    // Update username
+    data.user.username = userStore.user.username
+    // Update profile picture
+    if (userStore.user.profilePicture) {
+      data.user.profilePicture =
+        axios.defaults.baseURL + '/uploads/' + userStore.user.profilePicture
+    }
+  }
+})
+
+// Watching user store and update data if changes
+watch(
+  () => userStore.user,
+  () => {
+    data.user.username = userStore.user.username
+    if (userStore.user.profilePicture) {
+      data.user.profilePicture =
+        axios.defaults.baseURL + '/uploads/' + userStore.user.profilePicture
+    }
+  }
+)
 </script>
 
 <style lang="scss" scoped>
@@ -110,6 +127,8 @@ span {
   position: fixed;
   bottom: 0;
   border-top: solid 2px $color-background-shadow;
+
+  background-color: $color-background;
 
   /** Sizes */
   min-width: 100vw;

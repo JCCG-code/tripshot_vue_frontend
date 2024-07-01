@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Merienda:wght@300..900&display=swap");
+@import 'primeicons/primeicons.css';
 body {
   min-height: 100vh;
   color: #ececec;
@@ -21,4 +22,11 @@ button {
 
 .profile-picture {
   border-radius: 50%;
+}
+
+.loading {
+  margin: 20px;
+}
+.loading p {
+  font-size: 20px;
 }/*# sourceMappingURL=init.css.map */

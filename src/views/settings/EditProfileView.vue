@@ -10,20 +10,15 @@
       <h1>Edit profile</h1>
     </div>
     <!-- Edit profile form -->
-    <section class="section-wrap" v-if="data.loading">
-      <div class="loading-data-wrap">
-        <p>Loading profile</p>
-      </div>
-    </section>
-    <section class="section-wrap" v-else>
+    <section class="section-wrap">
       <form @submit.prevent="editProfile" enctype="multipart/form-data">
         <!-- Edit profile picture -->
         <div class="profilePicture-wrap">
           <img
-            v-if="data.profilePicturePath"
+            v-if="data.user.profilePicture"
             alt="Profile icon"
             class="icon profile-picture edit-profile-icon"
-            :src="data.profilePicturePath"
+            :src="data.user.profilePicture"
             @click="triggerFileInput"
           />
           <img
@@ -43,13 +38,13 @@
           />
         </div>
         <p>Username</p>
-        <input type="text" v-model="data.username" />
+        <input type="text" v-model="data.user.username" />
         <p>Bio</p>
-        <input type="text" v-model="data.bio" />
+        <input type="text" v-model="data.user.bio" />
         <p>Email</p>
-        <input type="email" v-model="data.email" />
-        <p>Password</p>
-        <input type="password" v-model="data.password" />
+        <input type="email" v-model="data.user.email" />
+        <p>Change password</p>
+        <input type="password" v-model="data.user.password" />
         <button>Update</button>
       </form>
     </section>
@@ -57,86 +52,103 @@
 </template>
 
 <script setup>
+import { useAppStore } from '@/stores/appStore'
 import { useUserStore } from '@/stores/userStore'
-import { computed, inject, onMounted, reactive } from 'vue'
+import { inject, onMounted, reactive, watch } from 'vue'
 
 // Reactive page data
 const data = reactive({
-  id: '',
-  username: '',
-  email: '',
-  password: '',
-  bio: '',
-  profilePicture: '',
-  profilePicturePath: '',
-  errorMessage: '',
-  loading: false
+  user: {
+    id: '',
+    username: '',
+    email: '',
+    password: '',
+    bio: '',
+    profilePicture: ''
+  }
 })
 
 // Initializations
 const axios = inject('axios')
+const appStore = useAppStore()
 const userStore = useUserStore()
 
-// Computed page data
-const userStored = computed(() => {
-  return userStore.user
-})
-
 onMounted(() => {
-  if (userStored.value) {
+  if (userStore.user) {
     // Update user id
-    data.id = userStored.value.id
+    data.user.id = userStore.user.id
     // Update username
-    data.username = userStored.value.username
+    data.user.username = userStore.user.username
     // Update email
-    data.email = userStored.value.email
+    data.user.email = userStore.user.email
     // Update bio
-    data.bio = userStored.value.bio
+    data.user.bio = userStore.user.bio
     // Update profile picture
-    if (userStored.value.profilePicture) {
-      data.profilePicturePath =
-        axios.defaults.baseURL + '/uploads/' + userStored.value.profilePicture
+    if (userStore.user.profilePicture) {
+      data.user.profilePicture =
+        axios.defaults.baseURL + '/uploads/' + userStore.user.profilePicture
     }
   }
 })
 
+// Watching user store and update data if changes
+watch(
+  () => userStore.user,
+  () => {
+    data.user.id = userStore.user.id
+    data.user.username = userStore.user.username
+    data.user.email = userStore.user.email
+    if (userStore.user.profilePicture) {
+      data.user.profilePicture =
+        axios.defaults.baseURL + '/uploads/' + userStore.user.profilePicture
+    }
+  }
+)
+
 /**
- *
+ * Allows to update the user profile
  */
 async function editProfile() {
   const formData = new FormData()
-  formData.append('username', data.username)
-  formData.append('bio', data.bio)
-  formData.append('email', data.email)
-  formData.append('password', data.password)
-  if (data.profilePicture) {
+  formData.append('username', data.user.username)
+  formData.append('bio', data.user.bio)
+  formData.append('email', data.user.email)
+  formData.append('password', data.user.password)
+  if (data.user.profilePicture.name) {
     formData.append(
       'profilePicture',
-      data.profilePicture,
-      data.profilePicture.name
+      data.user.profilePicture,
+      data.user.profilePicture.name
     )
   }
 
+  appStore.setIsLoading(true)
   await axios
-    .put('/users/' + data.id, formData, {
+    .put('/users/' + data.user.id, formData, {
       headers: {
         Authorization: 'Bearer ' + localStorage.getItem('token')
       }
     })
     .then((response) => {
       if (response.data.status === 'OK') {
-        data.loading = true
         // Set stored user
         userStore.setUser(response.data.data.userData)
-        // Reload the page and load new user stored
-        location.reload()
-        data.loading = false
+        // Modal data
+        appStore.setInfoMessage({
+          message: 'Your profile has been updated!',
+          isError: false
+        })
       }
     })
     .catch((error) => {
-      data.errorMessage = error.response.data.data.error
+      // Reactive data
+      appStore.setInfoMessage({
+        message: error.response.data.data.error,
+        isError: true
+      })
       console.error('Error: ', error.response.data.data.error)
     })
+  appStore.setIsLoading(false)
 }
 
 /**
@@ -145,7 +157,7 @@ async function editProfile() {
  * @param {object} e - event javascript object
  */
 async function onFileSelected(e) {
-  data.profilePicture = e.target.files[0]
+  data.user.profilePicture = e.target.files[0]
   await editProfile()
 }
 
@@ -184,17 +196,6 @@ function triggerFileInput() {
   }
 }
 
-.loading-data-wrap {
-  height: calc(100vh - 154px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  p {
-    font-size: 20px;
-  }
-}
-
 .profilePicture-wrap {
   display: flex;
   flex-direction: column;
@@ -206,7 +207,7 @@ function triggerFileInput() {
     height: 70px;
   }
   p {
-    color: #c06767;
+    color: $color-secondary;
     font-size: 12px;
     font-weight: 600;
 
@@ -240,9 +241,14 @@ button {
   color: $color-background;
   font-weight: 600;
   text-align: center;
+  transition: 0.3s;
 
   /** Sizes */
   margin-top: 40px;
+
+  &:hover {
+    background-color: #929292;
+  }
 }
 
 form {
